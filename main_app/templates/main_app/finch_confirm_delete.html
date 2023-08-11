@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="has-text-centered">Delete Finch</h1>
+
+<h4 class="has-text-centered">Delete <span class="teal-text">{{ object.name }}</span>?</h4>
+
+<form class="has-text-centered" action="" method="POST">
+{% csrf_token %}
+<input type="submit" value="Yes - Delete!" class="btn">
+<a href="{% url 'detail' object.id %}">Cancel</a>
+</form>
+
+{% endblock %}

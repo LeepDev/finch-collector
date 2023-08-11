@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="has-text-centered">Finch Details</h1>
+
+<div class="columns">
+  <div class="column">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-header-title is-centered">{{ finch.name }}</span>
+        <div class="content has-text-centered">
+          <p>type: {{ finch.type }}</p>
+          <p>Description: {{ finch.description|linebreaks }}</p>
+          <p>Age: {{ finch.age }}</p>
+        </div>
+      </div>
+      
+      <footer class="card-footer">
+        <a href="{% url 'finches_update' finch.id %}" class="card-footer-item">Edit</a>
+        <a href="{% url 'finches_delete' finch.id %}" class="card-footer-item">Delete</a>
+      </footer>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card has-text-centered">
+      <form method="POST" action="{% url 'add_bathing' finch.id %}">
+          {% csrf_token %}
+          {{ bathing_form.as_p }}
+          <input type="submit" class="button is-success" value="Add Bathing">
+      </form>
+      <br>
+      {% if finch.bathed_for_today %}
+        <span class="tag is-light is-info">{{finch.name}} all clean for today!</span>
+      {% else %}
+        <span class="tag is-light is-danger">{{finch.name}} is dirty...</span>
+      {% endif %}
+      <table class="striped">
+        <thead>
+          <tr><th>Date</th><th>Bath</th></tr>
+        </thead>
+        <tbody>
+          {% for bathing in finch.bathing_set.all %}
+            <tr>
+              <td>{{bathing.date}}</td>
+              <td>{{bathing.get_bath_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  const dateEl = document.getElementById('id_date')
+  dateEl.className = "input has-text-centered"
+  dateEl.setAttribute("autocomplete", "off")
+  let wrapper = document.createElement('div');
+  dateEl.parentNode.insertBefore(wrapper, dateEl);
+  wrapper.appendChild(dateEl);
+  wrapper.className = "column is-half"
+  wrapper.id='centered'
+  const divCentered = document.getElementById('centered')
+  wrapper = document.createElement('div');
+  divCentered.parentNode.insertBefore(wrapper, divCentered);
+  wrapper.appendChild(divCentered);
+  wrapper.className = "columns is-centered"
+  
+  const datepicker = new Datepicker(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultViewDate: new Date(),
+    autohide: true,
+    todayHighlight: true
+  }); 
+  
+  const selectEl = document.getElementById('id_bath')
+  wrapper = document.createElement('div');
+  selectEl.parentNode.insertBefore(wrapper, selectEl);
+  wrapper.appendChild(selectEl);
+  wrapper.className = "select is-success"
+
+  document.querySelector('label[for="id_date"]').className = "label";
+  document.querySelector('label[for="id_bath"]').className = "label";
+</script>
+
+{% endblock %}
