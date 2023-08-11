@@ -1,17 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Toy List</h1>
+<h1 class="has-text-centered">Toy List</h1>
 
-{% for toy in toy_list %}
-  <a href="{% url 'toys_detail' toy.id %}">
-    <div class="card">
+<div class="columns">
+  <div class="column">
+  </div>
+  <div class="column">
+    {% for toy in toy_list %}
+    <a href="{% url 'toys_detail' toy.id %}">
+      <div class="card hover">
         <div class="card-content">
-            <span class="card-title">{{ toy.name }}</span>
-            <p>Color: {{ toy.color }}</p>
+          <h4 class="card-header-title is-centered">{{ toy.name }}</h4>
+          <label class="label has-text-centered">Color: </label>
+          <p class="has-text-centered"><span style="color: {{ toy.color }}">{{ toy.color }}</span></p>
         </div>
-    </div>
-  </a>
-{% endfor %}
-
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  <div class="column">
+  </div>
+</div>
+  
 {% endblock %}

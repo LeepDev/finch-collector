@@ -15,10 +15,13 @@ def finches_index(request):
 
 def finches_detail(request, finch_id):
     finch = Finch.objects.get(id = finch_id)
+    id_list = finch.toys.all().values_list('id')
+    toys_cat_doesnt_have = Toy.objects.exclude(id__in=id_list)
     bathing_form = BathingForm()
     return render(request, 'finches/detail.html', { 
         'finch': finch,
-        'bathing_form': bathing_form
+        'bathing_form': bathing_form,
+        'toys': toys_cat_doesnt_have
         })
 
 def add_bathing(request, finch_id):
@@ -31,7 +34,7 @@ def add_bathing(request, finch_id):
 
 class FinchCreate(CreateView):
     model = Finch
-    fields = '__all__'
+    fields = ['name', 'type', 'description', 'age']
 
 class FinchUpdate(UpdateView):
     model = Finch

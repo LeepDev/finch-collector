@@ -2,23 +2,45 @@
 {% block content %}
 
 {% if object %}
-    <h1  class="has-text-centered">Edit <span class="teal-text">{{ object.name }}</span></h1>
+    <h1 class="has-text-centered">Edit <span class="teal-text">{{ object.name }}</span></h1>
 {% else %}
-    <h1  class="has-text-centered">Add Finch</h1>
+    <h1 class="has-text-centered">Add Finch</h1>
 {% endif %}
 
-<!-- Leaving the action empty makes the form post to the same url used to display it -->
-<form class="has-text-centered" action="" method="POST">
-    <!-- Django requires the following for security purposes -->
-    {% csrf_token %}
+<div class="columns">
+    <div class="column">
+    </div>
+    <div class="column">
+        <!-- Leaving the action empty makes the form post to the same url used to display it -->
+        <form class="has-text-centered" action="" method="POST">
+            <!-- Django requires the following for security purposes -->
+            {% csrf_token %}
+            
+            <table>
+                <!-- Render the inputs inside of <tr>s & <td>s -->
+                {{ form.as_table }}
+            </table>
+                
+            <!-- <input type="submit" value="Submit!" class="button is-success is-hovered"> -->
+            <input type="submit" value="Submit!" class="button is-success">
+                
+        </form>
+    </div>
+    <div class="column">
+    </div>
+</div>
+<script>
+    let dateEl = document.getElementById('id_type')
+    dateEl.className = "input has-text-centered"
+    dateEl = document.getElementById('id_description')
+    dateEl.className = "textarea has-text-centered"
+    dateEl = document.getElementById('id_age')
+    dateEl.className = "input has-text-centered"
 
-    <table>
-        <!-- Render the inputs inside of <tr>s & <td>s -->
-        {{ form.as_table }}
-    </table>
-
-    <input type="submit" value="Submit!" class="btn">
-
-</form>
+    document.querySelector('label[for="id_name"]').className = "label";
+    document.querySelector('label[for="id_type"]').className = "label";
+    document.querySelector('label[for="id_description"]').className = "label";
+    document.querySelector('label[for="id_age"]').className = "label";
+</script>
 
 {% endblock %}
